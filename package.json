@@ -9,7 +9,11 @@
     "pi-extension",
     "mcp",
     "outlook",
-    "codex"
+    "codex",
+    "pi-coding-agent",
+    "microsoft-365",
+    "email",
+    "calendar"
   ],
   "repository": {
     "type": "git",
