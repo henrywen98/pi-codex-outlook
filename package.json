@@ -1,0 +1,44 @@
+{
+  "name": "pi-codex-outlook",
+  "version": "0.1.0",
+  "description": "Use your existing Codex Outlook Apps connection from Pi through a local MCP adapter.",
+  "type": "module",
+  "license": "MIT",
+  "keywords": [
+    "pi-package",
+    "pi-extension",
+    "mcp",
+    "outlook",
+    "codex"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/henrywen98/pi-codex-outlook.git"
+  },
+  "homepage": "https://github.com/henrywen98/pi-codex-outlook#readme",
+  "bugs": {
+    "url": "https://github.com/henrywen98/pi-codex-outlook/issues"
+  },
+  "files": [
+    "extensions/*.ts",
+    "extensions/*.py",
+    "README.md",
+    "LICENSE"
+  ],
+  "pi": {
+    "extensions": [
+      "./extensions/index.ts"
+    ]
+  },
+  "peerDependencies": {
+    "@earendil-works/pi-coding-agent": "*"
+  },
+  "scripts": {
+    "test": "python3 -m unittest discover -s tests -v",
+    "test:smoke": "python3 tests/smoke_mcp.py",
+    "check:package": "npm pack --dry-run"
+  },
+  "engines": {
+    "node": ">=22.19.0"
+  }
+}

@@ -1,0 +1,12 @@
+node_modules/
+__pycache__/
+*.py[cod]
+*.tgz
+.env
+.env.*
+*.log
+coverage/
+.pi/
+.codex/
+.claude/
+local-reports/
