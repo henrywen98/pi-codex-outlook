@@ -1,7 +1,7 @@
 {
   "name": "pi-codex-outlook",
   "version": "0.1.0",
-  "description": "Use your existing Codex Outlook Apps connection from Pi through a local MCP adapter.",
+  "description": "Bring Outlook email and calendar into Pi using your existing Codex connection. No separate Microsoft login in Pi.",
   "type": "module",
   "license": "MIT",
   "keywords": [
@@ -13,7 +13,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/henrywen98/pi-codex-outlook.git"
+    "url": "git+https://github.com/henrywen98/pi-codex-outlook.git"
   },
   "homepage": "https://github.com/henrywen98/pi-codex-outlook#readme",
   "bugs": {

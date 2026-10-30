@@ -1,32 +1,24 @@
 # pi-codex-outlook
 
-Use your existing Codex Outlook connection from [Pi](https://pi.dev/).
+**Your Outlook email and calendar, inside [Pi](https://pi.dev/).**
 
-This Pi package registers a local MCP adapter for Outlook Email and Outlook Calendar. Codex manages the existing Apps login. Pi calls those tools directly through Codex app-server. The adapter does not start a Codex model turn.
+Already use Outlook in Codex? Bring that connection into Pi without setting up a separate Microsoft login in Pi.
 
-> Experimental integration. Codex documents the MCP RPC methods, but this Outlook Apps reuse path has no verified long-term compatibility guarantee. It is not an official OpenAI or Microsoft package.
+- **Keep working in Pi.** Ask about your Outlook email and calendars from your agent session.
+- **Reuse your existing connection.** Codex manages authentication; this package does not copy tokens into Pi.
+- **Call tools directly.** No Codex model turn is needed to run the Outlook tools.
 
-## Why this package exists
+> Requires Codex CLI with working Outlook Email and Calendar Apps connections. Installing Codex alone is not enough.
+>
+> Non-official, experimental integration. Linux tested; macOS success reported by a user. Windows unverified.
 
-After exploring direct Microsoft 365 connection options, reusing an existing Codex Apps connection was the route verified in practice. The adapter successfully read Outlook account information and calendar metadata. A test email also reached a separate personal mailbox.
+## Quick start
 
-This does not establish that other connection options cannot work. It avoids a separate Microsoft login flow in Pi when Codex already has a working Outlook connection.
+### 1. Check Outlook in Codex
 
-## Requirements
+Make sure Codex can already read your Outlook profile and calendars. If needed, [connect the Apps first](#connect-outlook-in-codex-first).
 
-- Pi with built-in MCP support and `registerMcpServer`. Tested with Pi 1.4.0.
-- Codex CLI with an active login and connected Outlook Email and Outlook Calendar Apps. Tested with Codex app-server 0.166.0.
-- Python 3.11 or newer, available as `python3` on PATH.
-- Linux or macOS. Linux was tested directly; a user reported successful use on a MacBook. Windows has not been verified.
-- For Pi's Node-based installation, Node.js 22.19.0 or newer.
-
-The adapter uses only the Python standard library. It does not install or run a Microsoft MCP server.
-
-Your Codex account must already support the required Apps. Installing this package does not grant Microsoft permissions or make an unavailable App available.
-
-## Install
-
-Install the tagged GitHub release:
+### 2. Install in Pi
 
 ```bash
 pi install git:github.com/henrywen98/pi-codex-outlook@v0.1.0
@@ -34,20 +26,39 @@ pi install git:github.com/henrywen98/pi-codex-outlook@v0.1.0
 
 Review the source before installation: Pi packages execute local code with your user's permissions.
 
-Then start a new Pi session, or run `/reload` in an existing session. Use `/mcp` to check `codex-outlook`.
+### 3. Reload and try a read-only task
 
-The shell command `pi mcp list` does not load extensions, so it will not list this extension-registered server.
+Run `/reload` in Pi, or start a new session. Then ask:
 
-For local development:
-
-```bash
-git clone https://github.com/henrywen98/pi-codex-outlook.git
-pi install ./pi-codex-outlook
+```text
+List my Outlook calendars.
 ```
 
-Git installation is sufficient. This release does not require an npm registry publication. A pinned tag does not move when the repository changes.
+Next, try an email lookup:
 
-If you installed an earlier standalone copy, remove that copy from Pi's extensions directory before installing this package. Do not load both copies.
+```text
+Find the latest email about the quarterly report.
+```
+
+Use `/mcp` to check that `codex-outlook` is connected. No `mcp.json` entry is needed.
+
+**Stuck?** See [Troubleshooting](#troubleshooting) or [open an issue](https://github.com/henrywen98/pi-codex-outlook/issues). Include versions and a redacted error, not mailbox content or tokens.
+
+## Is this for you?
+
+This package is for Pi users who already have working Outlook Apps connections in Codex. It is not a standalone Microsoft login client.
+
+| Requirement | Details |
+| --- | --- |
+| Pi | Built-in MCP support and `registerMcpServer`. Tested with Pi 1.4.0. |
+| Codex CLI | Active login and connected Outlook Email and Calendar Apps. Tested with app-server 0.166.0. |
+| Python | Python 3.11 or newer, available as `python3` on PATH. |
+| Platform | Linux tested directly. A user reported successful use on a MacBook. Windows unverified. |
+| Node.js | 22.19.0 or newer for Pi's Node-based installation. |
+
+The adapter uses only the Python standard library. It does not install a Microsoft MCP server or grant Microsoft permissions.
+
+**Write tools are included.** Some tools send messages or meeting notifications immediately. See [Writes and permissions](#writes-and-permissions) before using them.
 
 ## Connect Outlook in Codex first
 
@@ -61,13 +72,7 @@ Codex's regular `codex mcp list` output is not sufficient to check its Apps conn
 
 The adapter inherits your Codex configuration and environment. Codex can connect its other configured servers, but this adapter exposes only Outlook Apps tools.
 
-## Use from Pi
-
-Ask Pi to perform an Outlook task, for example:
-
-- “List my Outlook calendars.”
-- “Find the latest email about the quarterly report.”
-- “Draft an email to alice@example.com.”
+## Tools in Pi
 
 Tools use these prefixes:
 
@@ -122,9 +127,17 @@ Authentication stays with Codex. The adapter does not copy tokens into Pi config
 
 An ephemeral thread does not make remote writes temporary. Outlook calls still use remote services and remain subject to account policies and limits.
 
+## Why reuse Codex?
+
+After exploring direct Microsoft 365 connection options, reusing an existing Codex Apps connection was the route verified in practice.
+
+The adapter read account information and calendar metadata. It also sent a test email that reached a separate personal mailbox.
+
+This does not establish that other connection options cannot work. The benefit is reusing a working connection instead of configuring another one in Pi.
+
 ## Configuration
 
-No `mcp.json` entry is needed. The extension registers the adapter when Pi loads it.
+The extension registers the adapter when Pi loads it. Codex documents the MCP RPC methods, but this Outlook Apps reuse path has no verified long-term compatibility guarantee.
 
 By default, the adapter starts `codex` from PATH. To choose another executable, set this variable before starting Pi:
 
@@ -136,7 +149,18 @@ The extension launches `python3` from PATH. Use an environment where that comman
 
 Each adapter process uses one Codex app-server subprocess and one ephemeral thread. Reloading or closing Pi releases the adapter and its subprocess.
 
-## Tests
+## Development and distribution
+
+For local development:
+
+```bash
+git clone https://github.com/henrywen98/pi-codex-outlook.git
+pi install ./pi-codex-outlook
+```
+
+Git installation works today; an npm publication is not required. A pinned Git tag does not move when the repository changes.
+
+If you installed an earlier standalone copy, remove that copy from Pi's extensions directory. Do not load both copies.
 
 Run local unit tests without Microsoft credentials:
 
@@ -177,6 +201,7 @@ Tool counts depend on the account and Codex version. Discovery does not prove th
 | Symptom | Action |
 | --- | --- |
 | `codex-outlook` is missing from `/mcp` | Check `pi list`, then run `/reload`. Ensure built-in MCP support is enabled. |
+| The shell command `pi mcp list` does not show the adapter | Use `/mcp` inside Pi. Shell MCP commands do not load extensions. |
 | `No Outlook Apps tools found` | Check the Outlook Apps/plugins and their connections in Codex. |
 | A command is missing | Check that `codex` and `python3` are available in Pi's PATH. |
 | Login or authorization fails | Restore the connection in Codex, then reconnect `codex-outlook` in Pi. |
