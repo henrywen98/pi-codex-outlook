@@ -17,7 +17,7 @@ This does not establish that other connection options cannot work. It avoids a s
 - Pi with built-in MCP support and `registerMcpServer`. Tested with Pi 1.4.0.
 - Codex CLI with an active login and connected Outlook Email and Outlook Calendar Apps. Tested with Codex app-server 0.166.0.
 - Python 3.11 or newer, available as `python3` on PATH.
-- A Linux environment. Other operating systems have not been verified. The current subprocess and signal handling targets POSIX systems.
+- Linux or macOS. Linux was tested directly; a user reported successful use on a MacBook. Windows has not been verified.
 - For Pi's Node-based installation, Node.js 22.19.0 or newer.
 
 The adapter uses only the Python standard library. It does not install or run a Microsoft MCP server.
@@ -166,6 +166,9 @@ CI runs unit tests and the package check. CI does not use your Codex login or co
 - A real Pi runtime discovered the adapter tools.
 - Profile reads and calendar listing passed through the adapter.
 - One email send and a search for that email succeeded. The recipient confirmed delivery.
+- A user reported successful use on a MacBook: with Codex already available, the package worked after installation without extra adapter configuration.
+
+The macOS result is user-reported. Exact macOS, Pi, and Codex versions and individual tool coverage were not recorded. A working Outlook Apps connection in Codex is still required.
 
 Tool counts depend on the account and Codex version. Discovery does not prove that every tool works. Calendar writes, attachments, long-running sessions, and login-expiry recovery have not been validated.
 
