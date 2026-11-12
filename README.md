@@ -2,6 +2,9 @@
 
 **Your Outlook email and calendar, inside [Pi](https://pi.dev/).**
 
+[![npm version](https://img.shields.io/npm/v/pi-codex-outlook)](https://www.npmjs.com/package/pi-codex-outlook)
+[![MIT license](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
+
 Already use Outlook in Codex? Bring that connection into Pi without setting up a separate Microsoft login in Pi.
 
 - **Keep working in Pi.** Ask about your Outlook email and calendars from your agent session.
@@ -21,8 +24,10 @@ Make sure Codex can already read your Outlook profile and calendars. If needed, 
 ### 2. Install in Pi
 
 ```bash
-pi install git:github.com/henrywen98/pi-codex-outlook@v0.1.0
+pi install npm:pi-codex-outlook@0.1.0
 ```
+
+Prefer Git? Use `pi install git:github.com/henrywen98/pi-codex-outlook@v0.1.0` instead. Install from one source, not both.
 
 Review the source before installation: Pi packages execute local code with your user's permissions.
 
@@ -43,6 +48,19 @@ Find the latest email about the quarterly report.
 Use `/mcp` to check that `codex-outlook` is connected. No `mcp.json` entry is needed.
 
 **Stuck?** See [Troubleshooting](#troubleshooting) or [open an issue](https://github.com/henrywen98/pi-codex-outlook/issues). Include versions and a redacted error, not mailbox content or tokens.
+
+## What can you ask?
+
+Start with a read-only task:
+
+```text
+Find emails about the quarterly report and summarize the next steps.
+List my calendar events for tomorrow.
+```
+
+These are example prompts, not a record of tested workflows. Tool availability depends on your Codex connection.
+
+If this package is useful, [star the repository](https://github.com/henrywen98/pi-codex-outlook) to help other Pi users find it.
 
 ## Is this for you?
 
@@ -158,7 +176,7 @@ git clone https://github.com/henrywen98/pi-codex-outlook.git
 pi install ./pi-codex-outlook
 ```
 
-Git installation works today; an npm publication is not required. A pinned Git tag does not move when the repository changes.
+Install from npm for a published version, or use a pinned Git tag. A pinned Git tag does not move when the repository changes.
 
 If you installed an earlier standalone copy, remove that copy from Pi's extensions directory. Do not load both copies.
 
@@ -209,11 +227,13 @@ Tool counts depend on the account and Codex version. Discovery does not prove th
 | An interactive request is rejected | Complete the required interaction in Codex. The adapter does not handle interactive server requests. |
 | A Codex update breaks the adapter | Report the Pi and Codex versions with a redacted error. Do not include tokens or mailbox data. |
 
-To uninstall a tagged Git installation:
+To uninstall the npm installation:
 
 ```bash
-pi remove git:github.com/henrywen98/pi-codex-outlook@v0.1.0
+pi remove npm:pi-codex-outlook@0.1.0
 ```
+
+For a tagged Git installation, use `pi remove git:github.com/henrywen98/pi-codex-outlook@v0.1.0` instead.
 
 Then run `/reload` or start a new Pi session.
 
